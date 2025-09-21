@@ -8,7 +8,7 @@ const pressItems = [
     headline: `Helping Hollywood crack the Hill’s climate code`,
     date: 'JULY 2024',
     image: '/cards/card1.jpeg',
-    link: "/",
+    link: "https://www.politico.com/newsletters/california-climate/2024/07/15/helping-hollywood-crack-the-hills-climate-code-00168503",
   },
   {
     publication: 'AXIOS',
