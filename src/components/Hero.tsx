@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 export default function Hero() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -98,6 +98,29 @@ export default function Hero() {
     };
   }, []);
 
+  // --- TIMER LOGIC ---
+  const [timeLeft, setTimeLeft] = useState({ days: '10', hours: '00', minutes: '00', seconds: '00' });
+  useEffect(() => {
+    const target = new Date(Date.now() + 10 * 24 * 60 * 60 * 1000); // 10 days from now
+    const tick = () => {
+      const now = new Date();
+      const diff = Math.max(0, target.getTime() - now.getTime());
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const minutes = Math.floor((diff / (1000 * 60)) % 60);
+      const seconds = Math.floor((diff / 1000) % 60);
+      setTimeLeft({
+        days: days.toString().padStart(2, '0'),
+        hours: hours.toString().padStart(2, '0'),
+        minutes: minutes.toString().padStart(2, '0'),
+        seconds: seconds.toString().padStart(2, '0'),
+      });
+    };
+    tick();
+    const interval = setInterval(tick, 1000);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <div className="relative w-full h-screen overflow-hidden bg-black">
       <canvas
@@ -117,19 +140,19 @@ export default function Hero() {
         {/* Countdown Timer */}
         <div className="flex flex-row gap-6 md:gap-12 mb-0 md:mb-8 justify-center items-end">
           <div className="flex flex-col items-center">
-            <div className="text-[clamp(2.5rem,7vw,5rem)] font-extrabold font-mono leading-none mb-1">00</div>
+            <div className="text-[clamp(2.5rem,7vw,5rem)] font-extrabold font-mono leading-none mb-1">{timeLeft.days}</div>
             <div className="text-xs md:text-base tracking-widest text-white/60 uppercase">DAYS</div>
           </div>
           <div className="flex flex-col items-center">
-            <div className="text-[clamp(2.5rem,7vw,5rem)] font-extrabold font-mono leading-none mb-1">00</div>
+            <div className="text-[clamp(2.5rem,7vw,5rem)] font-extrabold font-mono leading-none mb-1">{timeLeft.hours}</div>
             <div className="text-xs md:text-base tracking-widest text-white/60 uppercase">HOURS</div>
           </div>
           <div className="flex flex-col items-center">
-            <div className="text-[clamp(2.5rem,7vw,5rem)] font-extrabold font-mono leading-none mb-1">00</div>
+            <div className="text-[clamp(2.5rem,7vw,5rem)] font-extrabold font-mono leading-none mb-1">{timeLeft.minutes}</div>
             <div className="text-xs md:text-base tracking-widest text-white/60 uppercase">MINUTES</div>
           </div>
           <div className="flex flex-col items-center">
-            <div className="text-[clamp(2.5rem,7vw,5rem)] font-extrabold font-mono leading-none mb-1">00</div>
+            <div className="text-[clamp(2.5rem,7vw,5rem)] font-extrabold font-mono leading-none mb-1">{timeLeft.seconds}</div>
             <div className="text-xs md:text-base tracking-widest text-white/60 uppercase">SECONDS</div>
           </div>
         </div>
