@@ -157,20 +157,11 @@ export default function Hero() {
       <div className="absolute bottom-0 left-0 w-full py-3 md:py-4 px-1 md:px-2 bg-transparent z-20 overflow-hidden">
         <div
           className="flex w-max animate-marquee"
-          style={{
-            animation: 'marquee 22s linear infinite',
-          }}
         >
           <p className="text-[clamp(1.1rem,2.5vw,2.2rem)] font-bold text-white/60 uppercase tracking-widest whitespace-nowrap mx-4">
             MEXICO CITY • WALL STREET • HOLLYWOOD • SILICON VALLEY • WASHINGTON DC • ABU DHABI • DUBAI • MIAMI • SAN SALVADOR • BUENOS AIRES • TOKYO • HONG KONG • TAIWAN • AUSTIN • LONDON • MADRID • WARSAW • MUMBAI • TORONTO • SEOUL • BOULDER •
           </p>
         </div>
-        <style>{`
-          @keyframes marquee {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-          }
-        `}</style>
       </div>
     </div>
   );

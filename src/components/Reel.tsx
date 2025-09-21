@@ -11,6 +11,10 @@ export default function Reel() {
     '/reels/img3.webp',
     '/reels/img4.webp',
     '/reels/img5.webp',
+    '/reels/img6.webp',
+    '/reels/img7.webp',
+    '/reels/img8.webp',
+    '/reels/img9.webp',
   ], []);
   const [current, setCurrent] = useState(0);
   const [prev, setPrev] = useState(0);
@@ -101,7 +105,7 @@ export default function Reel() {
         </div>
       </div>
       {/* Filmstrip thumbnails */}
-      <div className="w-full flex justify-center items-center gap-2 py-4 bg-black">
+      <div className="w-full flex justify-center items-center gap-2 py-4 px-8 bg-black">
         {allImages.map((img, idx) => (
           <button
             key={img}
