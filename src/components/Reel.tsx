@@ -2,7 +2,7 @@ import Image from 'next/image';
 
 export default function Reel() {
   // Number of lines
-  const lineCount = 12;
+  const lineCount = 24;
   return (
     <section className="relative w-full min-h-screen h-screen bg-black text-white flex flex-col">
       {/* Title */}
@@ -11,27 +11,37 @@ export default function Reel() {
           THE REEL
         </h2>
       </div>
-      {/* Main Image - fill available space */}
-      <div className="flex-1 flex justify-center items-center w-full bg-black relative px-8">
-        {/* Faint horizontal lines background */}
-        <div className="absolute inset-0 pointer-events-none z-0 flex flex-col justify-between" aria-hidden="true">
+      {/* Main Content: lines left/right, image center */}
+      <div className="flex-1 flex flex-row w-full bg-black relative">
+        {/* Left lines */}
+        <div className="relative w-1/24 min-w-[8px] max-w-[24px] h-full flex flex-col justify-between z-0 pointer-events-none">
           {Array.from({ length: lineCount }).map((_, i) => (
             <div
               key={i}
-              className="w-full border-t border-white opacity-10"
-              style={{ borderWidth: '1.5px' }}
+              className="w-full border-t border-white/20 border-opacity-10 h-[0.5px]"
             />
           ))}
         </div>
-        {/* Image above lines */}
-        <div className="w-full h-full relative flex items-center justify-center z-10">
-          <Image
-            src="/reels/img1.webp"
-            alt="The Reel Main"
-            fill
-            className="object-cover object-center grayscale contrast-125"
-            priority
-          />
+        {/* Image center */}
+        <div className="flex-1 flex items-center justify-center relative z-10">
+          <div className="w-full h-full relative flex items-center justify-center">
+            <Image
+              src="/reels/img1.webp"
+              alt="The Reel Main"
+              fill
+              className="object-cover object-center grayscale contrast-125"
+              priority
+            />
+          </div>
+        </div>
+        {/* Right lines */}
+        <div className="relative w-1/24 min-w-[8px] max-w-[24px] h-full flex flex-col justify-between z-0 pointer-events-none">
+          {Array.from({ length: lineCount }).map((_, i) => (
+            <div
+              key={i}
+              className="w-full border-t border-white/20 border-opacity-10 h-[0.5px]"
+            />
+          ))}
         </div>
       </div>
       {/* Caption at the bottom */}
