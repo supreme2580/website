@@ -1,8 +1,44 @@
+'use client';
+
 import Image from 'next/image';
+import { useEffect, useState, useMemo, useRef } from 'react';
 
 export default function Reel() {
   // Number of lines
   const lineCount = 24;
+  // All images (memoized)
+  const allImages = useMemo(() => [
+    '/reels/img1.webp',
+    '/reels/img2.webp',
+    '/reels/img3.webp',
+    '/reels/img4.webp',
+    '/reels/img5.webp',
+  ], []);
+  const [imgSrc, setImgSrc] = useState(allImages[0]);
+  const [phase, setPhase] = useState(0); // 0,1,2 = fast, 3 = random hold
+  const prevPhase = useRef(phase);
+
+  useEffect(() => {
+    let timeout: NodeJS.Timeout;
+    if (phase < 3) {
+      timeout = setTimeout(() => {
+        const randomIdx = Math.floor(Math.random() * allImages.length);
+        setImgSrc(allImages[randomIdx]);
+        setPhase((prev) => prev + 1);
+      }, 500);
+    } else if (phase === 3 && prevPhase.current !== 3) {
+      // Only set the 4th image when entering phase 3
+      const available = allImages.filter((img) => img !== imgSrc);
+      const randomIdx = Math.floor(Math.random() * available.length);
+      setImgSrc(available[randomIdx]);
+      timeout = setTimeout(() => {
+        setPhase(0);
+      }, 4000);
+    }
+    prevPhase.current = phase;
+    return () => clearTimeout(timeout);
+  }, [phase, allImages, imgSrc]);
+
   return (
     <section className="relative w-full min-h-screen h-screen bg-black text-white flex flex-col">
       {/* Title */}
@@ -26,10 +62,10 @@ export default function Reel() {
         <div className="flex-1 flex items-center justify-center relative z-10">
           <div className="w-full h-full relative flex items-center justify-center">
             <Image
-              src="/reels/img1.webp"
+              src={imgSrc}
               alt="The Reel Main"
               fill
-              className="object-cover object-center grayscale contrast-125"
+              className="object-cover object-center grayscale contrast-125 transition-all duration-300"
               priority
             />
           </div>
