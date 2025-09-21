@@ -23,43 +23,109 @@ export default function Hero() {
 
     // Animation variables
     let time = 0;
-    const stripes = 8; // Number of stripes
-    const stripeHeight = canvas.height / stripes;
+    
+    interface Stream {
+      startX: number;
+      startY: number;
+      progress: number;
+      length: number;
+      thickness: number;
+    }
+    
+    const streams: Stream[] = [];
+
+    // Stream properties
+    const streamLength = 600; // 4x longer streams (600px instead of 150px)
+    const maxStreams = 20; // Maximum number of streams on screen
+    const spawnRate = 0.02; // Snake spawning rate
+
+    // Create initial streams
+    for (let i = 0; i < 5; i++) {
+      spawnNewStream();
+    }
+
+    function spawnNewStream() {
+      if (!canvas) return;
+      
+      streams.push({
+        startX: -50, // Start from left edge (top-left to bottom-right)
+        startY: Math.random() * canvas.height * 0.6, // Start from top 60%
+        progress: 0,
+        length: streamLength + Math.random() * 200, // Variable length (4x longer)
+        thickness: 40 // 10x thicker streams
+      });
+    }
+
+    function removeOldStreams() {
+      for (let i = streams.length - 1; i >= 0; i--) {
+        if (streams[i].progress > 1) {
+          streams.splice(i, 1);
+        }
+      }
+    }
+
+    function drawStream(stream: Stream, time: number) {
+      if (!ctx || !canvas) return;
+      
+      ctx.beginPath();
+      
+      // Calculate the head position (leading edge)
+      const headX = stream.startX + (stream.progress * (canvas.width + stream.length));
+      const headY = stream.startY + (stream.progress * canvas.height * 0.4);
+      
+      // Calculate the tail position (trailing edge)
+      const tailX = headX - stream.length;
+      const tailY = headY - (stream.length * 0.6);
+      
+      // Create smoothly curved stream using bezier curves
+      const width = headX - tailX;
+      const height = headY - tailY;
+      
+      // Calculate smooth curve control points (4x more curved)
+      const control1X = tailX + width * 0.3;
+      const control1Y = tailY + height * 0.3 + Math.sin(time * 0.01 + stream.startY * 0.01) * 120;
+      const control2X = tailX + width * 0.7;
+      const control2Y = tailY + height * 0.7 + Math.sin(time * 0.015 + stream.startY * 0.02) * 100;
+      
+      // Start point
+      ctx.moveTo(tailX, tailY);
+      
+      // Draw smooth bezier curve
+      ctx.bezierCurveTo(control1X, control1Y, control2X, control2Y, headX, headY);
+      
+      // Only fade out when approaching the end (progress > 0.8)
+      const fadeProgress = stream.progress > 0.8 ? (1 - stream.progress) / 0.2 : 1;
+      const baseOpacity = 0.4;
+      const pulseOpacity = Math.sin(time * 0.01 + stream.startY * 0.01) * 0.1;
+      const finalOpacity = (baseOpacity + pulseOpacity) * fadeProgress;
+      
+      ctx.strokeStyle = `rgba(255, 255, 255, ${finalOpacity})`;
+      ctx.lineWidth = stream.thickness;
+      ctx.lineCap = 'round';
+      ctx.stroke();
+    }
 
     // Animation loop
     const animate = () => {
+      if (!ctx || !canvas) return;
+      
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       
-      // Create flowing stripes using sine waves
-      for (let i = 0; i < stripes; i++) {
-        const y = i * stripeHeight;
-        const isEven = i % 2 === 0;
-        
-        ctx.beginPath();
-        ctx.moveTo(0, y);
-        
-        // Create wavy pattern using sine waves
-        for (let x = 0; x < canvas.width; x++) {
-          const wave1 = Math.sin((x * 0.01) + (time * 0.002)) * 20;
-          const wave2 = Math.sin((x * 0.005) + (time * 0.001)) * 10;
-          const wave3 = Math.sin((x * 0.02) + (time * 0.003)) * 5;
-          const totalWave = wave1 + wave2 + wave3;
-          
-          ctx.lineTo(x, y + totalWave);
-        }
-        
-        ctx.lineTo(canvas.width, canvas.height);
-        ctx.lineTo(0, canvas.height);
-        ctx.closePath();
-        
-        // Alternate colors for stripe effect
-        if (isEven) {
-          ctx.fillStyle = '#000000';
-        } else {
-          ctx.fillStyle = '#111111';
-        }
-        ctx.fill();
+      // Spawn new streams
+      if (Math.random() < spawnRate && streams.length < maxStreams) {
+        spawnNewStream();
       }
+      
+      // Update and draw streams
+      for (let i = 0; i < streams.length; i++) {
+        const stream = streams[i];
+        stream.progress += 0.005; // 2x slower snake-like movement speed
+        
+        drawStream(stream, time);
+      }
+      
+      // Remove streams that have finished
+      removeOldStreams();
       
       time += 1;
       requestAnimationFrame(animate);
