@@ -7,7 +7,7 @@ const pressItems = [
     number: '01',
     headline: `Helping Hollywood crack the Hill’s climate code`,
     date: 'JULY 2024',
-    image: null,
+    image: '/cards/card1.jpeg',
     link: "/",
   },
   {
@@ -15,7 +15,7 @@ const pressItems = [
     number: '02',
     headline: `Exclusive: Ex-Biden staffer launches social impact Hollywood fund`,
     date: 'AUGUST 2024',
-    image: '/reels/img2.webp',
+    image: '/cards/card2.jpeg',
     link: "https://www.axios.com/pro/media-deals/2024/08/12/phenomena-global-hedge-fund-for-social-impact-hollywood-projects",
   },
   {
@@ -23,7 +23,7 @@ const pressItems = [
     number: '03',
     headline: `Biden, Harris alums have big Hollywood dreams`,
     date: 'APRIL 2025',
-    image: null,
+    image: '/cards/card1.jpeg',
     link: "https://www.politico.com/newsletters/california-playbook/2025/04/04/biden-harris-alums-have-big-hollywood-dreams-00271779?utm_source=chatgpt.com",
   },
   {
@@ -31,7 +31,7 @@ const pressItems = [
     number: '04',
     headline: `New Firm Seeks to Pair Politics with Hollywood for Educational Entertainment`,
     date: 'JULY 2024',
-    image: '/reels/img4.webp',
+    image: '/cards/card3.jpeg',
     link: "https://mynewsla.com/business/2024/07/18/new-firm-seeks-to-pair-politics-with-hollywood-for-educational-entertainment/#google_vignette",
   },
   {
@@ -39,7 +39,7 @@ const pressItems = [
     number: '05',
     headline: `Lucas Jinkis joins California-based Phenomena Global Funds...`,
     date: 'SEPTEMBER 2024',
-    image: '/reels/img5.webp',
+    image: '/cards/card4.jpeg',
     link: "https://todotvnews.com/en/lucas-jinkis-joins-california-based-phenomena-global-funds-advisory-board/",
   },
 ];

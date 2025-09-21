@@ -6,12 +6,13 @@ import { useTypewriter } from 'react-simple-typewriter';
 export default function Manifesto() {
   // Store the original texts for reference
   const texts = useMemo(() => [
-    'Are you ready to witness history?',
-    "Embrace the future, it's no mystery.",
-    'Stand with us, in this grand symphony.',
-    'Dreams ignite, and boundaries fall.',
-    'Together we rise, answering the call.',
-    'A new era begins—this is for all.'
+    'Power is not taken.',
+    'It is granted by those who recognize its necessity.',
+    'September 10th marks not an end,',
+    'The convergence of influence.',
+    'The alignment of vision.',
+    'but the beginning of a new paradigm.',
+    'Are you ready to witness history?'
   ], []);
   const [currentIdx, setCurrentIdx] = useState(0);
 
