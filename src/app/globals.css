@@ -24,3 +24,22 @@ body {
   color: var(--foreground);
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
+
+@keyframes divider-up-infinite {
+  0% {
+    opacity: 0.2;
+    transform: translateY(0);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(-160px);
+  }
+  100% {
+    opacity: 0.2;
+    transform: translateY(0);
+  }
+}
+
+.animate-divider-up-infinite {
+  animation: divider-up-infinite 2.8s cubic-bezier(0.4,0,0.2,1) infinite;
+}
