@@ -166,7 +166,7 @@ export default function Hero() {
           }}
         >
           <p className="text-[clamp(1.1rem,2.5vw,2.2rem)] font-bold text-white/60 uppercase tracking-widest whitespace-nowrap mx-4">
-            WASHINGTON DC • ABU DHABI • DUBAI • MIAMI • SAN SALVADOR • WASHINGTON DC • ABU DHABI • DUBAI • MIAMI • SAN SALVADOR
+            MEXICO CITY • WALL STREET • HOLLYWOOD • SILICON VALLEY • WASHINGTON DC • ABU DHABI • DUBAI • MIAMI • SAN SALVADOR • BUENOS AIRES • TOKYO • HONG KONG • TAIWAN • AUSTIN • LONDON • MADRID • WARSAW • MUMBAI • TORONTO • SEOUL • BOULDER • MEXICO CITY • WALL STREET • HOLLYWOOD • SILICON VALLEY • WASHINGTON DC • ABU DHABI • DUBAI • MIAMI • SAN SALVADOR • BUENOS AIRES • TOKYO • HONG KONG • TAIWAN • AUSTIN • LONDON • MADRID • WARSAW • MUMBAI • TORONTO • SEOUL • BOULDER •
           </p>
         </div>
         <style>{`
