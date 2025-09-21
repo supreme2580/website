@@ -107,36 +107,36 @@ export default function Hero() {
       />
       <div className="relative z-10 flex flex-col items-center justify-center h-full text-white select-none">
         {/* Main Title */}
-        <h1 className="text-[clamp(3rem,12vw,8rem)] font-extrabold leading-none tracking-tight text-center mb-10 md:mb-14">
+        <h1 className="text-[clamp(3rem,12vw,8rem)] font-extrabold leading-none text-center mb-10 md:mb-14 tracking-widest">
           PHENOMENA
         </h1>
         {/* Launching Text */}
-        <p className="text-xs md:text-base tracking-widest text-center mb-8 md:mb-12 text-gray-300 uppercase">
+        <p className="text-xs md:text-base tracking-widest text-center mb-8 md:mb-12 text-white/60 uppercase">
           LAUNCHING
         </p>
         {/* Countdown Timer */}
         <div className="flex flex-row gap-6 md:gap-12 mb-0 md:mb-8 justify-center items-end">
           <div className="flex flex-col items-center">
             <div className="text-[clamp(2.5rem,7vw,5rem)] font-extrabold font-mono leading-none mb-1">00</div>
-            <div className="text-xs md:text-base tracking-widest text-gray-300 uppercase">DAYS</div>
+            <div className="text-xs md:text-base tracking-widest text-white/60 uppercase">DAYS</div>
           </div>
           <div className="flex flex-col items-center">
             <div className="text-[clamp(2.5rem,7vw,5rem)] font-extrabold font-mono leading-none mb-1">00</div>
-            <div className="text-xs md:text-base tracking-widest text-gray-300 uppercase">HOURS</div>
+            <div className="text-xs md:text-base tracking-widest text-white/60 uppercase">HOURS</div>
           </div>
           <div className="flex flex-col items-center">
             <div className="text-[clamp(2.5rem,7vw,5rem)] font-extrabold font-mono leading-none mb-1">00</div>
-            <div className="text-xs md:text-base tracking-widest text-gray-300 uppercase">MINUTES</div>
+            <div className="text-xs md:text-base tracking-widest text-white/60 uppercase">MINUTES</div>
           </div>
           <div className="flex flex-col items-center">
             <div className="text-[clamp(2.5rem,7vw,5rem)] font-extrabold font-mono leading-none mb-1">00</div>
-            <div className="text-xs md:text-base tracking-widest text-gray-300 uppercase">SECONDS</div>
+            <div className="text-xs md:text-base tracking-widest text-white/60 uppercase">SECONDS</div>
           </div>
         </div>
       </div>
       {/* Cities List Bar */}
-      <div className="absolute bottom-0 left-0 w-full py-4 px-2 bg-transparent z-20">
-        <p className="w-full text-center text-[clamp(1.1rem,2.5vw,2.2rem)] font-bold text-gray-700 tracking-widest uppercase whitespace-nowrap overflow-x-auto">
+      <div className="absolute bottom-0 left-0 w-full py-3 md:py-4 px-1 md:px-2 bg-transparent z-20">
+        <p className="w-full text-center text-base md:text-2xl xl:text-[2.2rem] font-bold text-white/60 uppercase whitespace-nowrap overflow-x-auto tracking-wide md:tracking-widest xl:tracking-[.25em] scrollbar-hide">
           WASHINGTON DC • ABU DHABI • DUBAI • MIAMI • SAN SALVADOR
         </p>
       </div>
