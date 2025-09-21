@@ -13,24 +13,19 @@ export default function Reel() {
     '/reels/img5.webp',
   ], []);
   const [current, setCurrent] = useState(0);
+  const [prev, setPrev] = useState(0);
+  const [direction, setDirection] = useState<'left' | 'right'>('right');
   const timerRef = useRef<NodeJS.Timeout | null>(null);
-
-  // Flicker effect
-  const [flicker, setFlicker] = useState(1);
-  useEffect(() => {
-    const flickerInterval = setInterval(() => {
-      setFlicker(0.97 + Math.random() * 0.06); // subtle flicker between 0.97 and 1.03
-    }, 120);
-    return () => clearInterval(flickerInterval);
-  }, []);
 
   // Auto-advance logic
   const resetTimer = useCallback(() => {
     if (timerRef.current) clearTimeout(timerRef.current);
     timerRef.current = setTimeout(() => {
+      setPrev(current);
+      setDirection('right');
       setCurrent((prev) => (prev + 1) % allImages.length);
     }, 2500);
-  }, [allImages.length]);
+  }, [allImages.length, current]);
 
   useEffect(() => {
     resetTimer();
@@ -39,11 +34,25 @@ export default function Reel() {
 
   // Manual navigation
   const goTo = (idx: number) => {
+    if (idx === current) return;
+    setPrev(current);
+    setDirection(idx > current || (current === allImages.length - 1 && idx === 0) ? 'right' : 'left');
     setCurrent(idx);
     resetTimer();
   };
   const goLeft = () => goTo((current - 1 + allImages.length) % allImages.length);
   const goRight = () => goTo((current + 1) % allImages.length);
+
+  // Sliding transition logic
+  const slideClass = (imgIdx: number) => {
+    if (imgIdx === current) {
+      return `absolute inset-0 transition-transform duration-500 ease-in-out z-20 ${direction === 'right' ? 'translate-x-0' : 'translate-x-0'}`;
+    } else if (imgIdx === prev) {
+      return `absolute inset-0 transition-transform duration-500 ease-in-out z-10 ${direction === 'right' ? '-translate-x-full' : 'translate-x-full'}`;
+    } else {
+      return 'hidden';
+    }
+  };
 
   return (
     <section className="relative w-full bg-black text-white flex flex-col">
@@ -56,7 +65,7 @@ export default function Reel() {
       {/* Main Content: image center */}
       <div className="flex-1 flex flex-row w-full bg-black relative">
         <div className="flex-1 flex items-center justify-center relative z-10">
-          <div className="relative w-[90vw] max-w-5xl aspect-video mx-auto flex items-center justify-center bg-black rounded-lg shadow-2xl border-4 border-white/10 overflow-hidden" style={{ filter: `brightness(${flicker})` }}>
+          <div className="relative w-[90vw] max-w-5xl aspect-video mx-auto flex items-center justify-center bg-black rounded-lg shadow-2xl border-4 border-white/10 overflow-hidden">
             {/* Left arrow */}
             <button
               aria-label="Previous"
@@ -66,15 +75,19 @@ export default function Reel() {
             >
               <ChevronLeftIcon className="w-5 h-5" />
             </button>
-            {/* Main image */}
-            <Image
-              src={allImages[current]}
-              alt={`Film frame ${current + 1}`}
-              fill
-              className="object-cover object-center grayscale contrast-125 transition-all duration-300 select-none"
-              priority
-              draggable={false}
-            />
+            {/* Sliding images */}
+            {allImages.map((img, idx) => (
+              <Image
+                key={img}
+                src={img}
+                alt={`Film frame ${idx + 1}`}
+                fill
+                className={`object-cover object-center grayscale contrast-125 transition-all duration-300 select-none ${slideClass(idx)}`}
+                priority={idx === current}
+                draggable={false}
+                style={{ pointerEvents: idx === current ? 'auto' : 'none' }}
+              />
+            ))}
             {/* Right arrow */}
             <button
               aria-label="Next"
