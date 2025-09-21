@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 
 const pressItems = [
   {
@@ -7,6 +8,7 @@ const pressItems = [
     headline: `Helping Hollywood crack the Hill’s climate code`,
     date: 'JULY 2024',
     image: null,
+    link: "/",
   },
   {
     publication: 'AXIOS',
@@ -14,6 +16,7 @@ const pressItems = [
     headline: `Exclusive: Ex-Biden staffer launches social impact Hollywood fund`,
     date: 'AUGUST 2024',
     image: '/reels/img2.webp',
+    link: "https://www.axios.com/pro/media-deals/2024/08/12/phenomena-global-hedge-fund-for-social-impact-hollywood-projects",
   },
   {
     publication: 'POLITICO',
@@ -21,6 +24,7 @@ const pressItems = [
     headline: `Biden, Harris alums have big Hollywood dreams`,
     date: 'APRIL 2025',
     image: null,
+    link: "https://www.politico.com/newsletters/california-playbook/2025/04/04/biden-harris-alums-have-big-hollywood-dreams-00271779?utm_source=chatgpt.com",
   },
   {
     publication: 'MYNEWSLA',
@@ -28,6 +32,7 @@ const pressItems = [
     headline: `New Firm Seeks to Pair Politics with Hollywood for Educational Entertainment`,
     date: 'JULY 2024',
     image: '/reels/img4.webp',
+    link: "https://mynewsla.com/business/2024/07/18/new-firm-seeks-to-pair-politics-with-hollywood-for-educational-entertainment/#google_vignette",
   },
   {
     publication: 'POLITICO',
@@ -35,6 +40,7 @@ const pressItems = [
     headline: `Lucas Jinkis joins California-based Phenomena Global Funds...`,
     date: 'SEPTEMBER 2024',
     image: '/reels/img5.webp',
+    link: "https://todotvnews.com/en/lucas-jinkis-joins-california-based-phenomena-global-funds-advisory-board/",
   },
 ];
 
@@ -54,20 +60,26 @@ export default function Press() {
       {/* Press Cards */}
       <div className="relative z-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 w-full max-w-7xl mx-auto">
         {pressItems.map((item, idx) => (
+          <Link 
+            href={item.link}
+            target={item.link.includes("https") ? "_blank" : "_self"}
+            rel="noopener noreferrer"
+            key={item.number}
+          >
           <div
             key={item.number}
-            className="group relative flex flex-col justify-end bg-gradient-to-t from-black/90 via-black/70 to-black/30 rounded-lg overflow-hidden min-h-[260px] h-[320px] shadow-lg border border-white/10 hover:border-white/30 hover:cursor-pointer transition-all duration-300"
+            className="group relative flex flex-col justify-end bg-gradient-to-t from-black/90 via-black/70 to-black/30 rounded-lg overflow-hidden min-h-[260px] h-[320px] shadow-lg border border-white/10 hover:border-white/30 hover:cursor-pointer transition-all duration-300 hover:scale-115"
           >
             {/* Optional image background */}
             {item.image && (
-              <Image
-                src={item.image}
-                alt={item.headline}
-                fill
-                className="object-cover object-center opacity-30 group-hover:opacity-40 transition-all duration-300"
-                style={{ zIndex: 0 }}
-                priority={idx === 0}
-              />
+                <Image
+                  src={item.image}
+                  alt={item.headline}
+                  fill
+                  className="object-cover object-center opacity-30 group-hover:opacity-40 transition-all duration-300"
+                  style={{ zIndex: 0 }}
+                  priority={idx === 0}
+                />
             )}
             {/* Overlay */}
             <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/70 to-transparent z-10" />
@@ -80,6 +92,7 @@ export default function Press() {
               <div className="text-xs text-white/50 tracking-widest mt-auto">{item.date}</div>
             </div>
           </div>
+          </Link>
         ))}
       </div>
     </section>

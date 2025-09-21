@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import ZebraBackground from './ZebraBackground';
 
 export default function Hero() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -123,9 +122,8 @@ export default function Hero() {
   }, []);
 
   return (
-    <div className="relative w-full h-screen overflow-hidden bg-black">
+    <div className="relative w-full h-screen overflow-hidden bg-black bg-[url('/background.png')] bg-cover bg-center bg-no-repeat">
       {/* Zebra/Wavy Three.js Background */}
-      <ZebraBackground />
       <div className="relative z-10 flex flex-col items-center justify-center h-full text-white select-none">
         {/* Main Title */}
         <h1 className="text-[clamp(3rem,12vw,8rem)] font-extrabold leading-none text-center mb-10 md:mb-14 tracking-widest">
@@ -164,7 +162,7 @@ export default function Hero() {
           }}
         >
           <p className="text-[clamp(1.1rem,2.5vw,2.2rem)] font-bold text-white/60 uppercase tracking-widest whitespace-nowrap mx-4">
-            MEXICO CITY • WALL STREET • HOLLYWOOD • SILICON VALLEY • WASHINGTON DC • ABU DHABI • DUBAI • MIAMI • SAN SALVADOR • BUENOS AIRES • TOKYO • HONG KONG • TAIWAN • AUSTIN • LONDON • MADRID • WARSAW • MUMBAI • TORONTO • SEOUL • BOULDER • MEXICO CITY • WALL STREET • HOLLYWOOD • SILICON VALLEY • WASHINGTON DC • ABU DHABI • DUBAI • MIAMI • SAN SALVADOR • BUENOS AIRES • TOKYO • HONG KONG • TAIWAN • AUSTIN • LONDON • MADRID • WARSAW • MUMBAI • TORONTO • SEOUL • BOULDER •
+            MEXICO CITY • WALL STREET • HOLLYWOOD • SILICON VALLEY • WASHINGTON DC • ABU DHABI • DUBAI • MIAMI • SAN SALVADOR • BUENOS AIRES • TOKYO • HONG KONG • TAIWAN • AUSTIN • LONDON • MADRID • WARSAW • MUMBAI • TORONTO • SEOUL • BOULDER •
           </p>
         </div>
         <style>{`
