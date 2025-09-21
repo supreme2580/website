@@ -99,46 +99,46 @@ export default function Hero() {
   }, []);
 
   return (
-    <div className="relative w-full h-screen overflow-hidden">
+    <div className="relative w-full h-screen overflow-hidden bg-black">
       <canvas
         ref={canvasRef}
         className="absolute inset-0 w-full h-full"
         style={{ background: '#000000' }}
       />
-      <div className="relative z-10 flex flex-col items-center justify-center h-full text-white">
+      <div className="relative z-10 flex flex-col items-center justify-center h-full text-white select-none">
         {/* Main Title */}
-        <h1 className="text-6xl md:text-8xl font-bold mb-4 tracking-wider">
+        <h1 className="text-[clamp(3rem,12vw,8rem)] font-extrabold leading-none tracking-tight text-center mb-10 md:mb-14">
           PHENOMENA
         </h1>
         {/* Launching Text */}
-        <p className="text-xl md:text-2xl mb-8 tracking-wide">
+        <p className="text-xs md:text-base tracking-widest text-center mb-8 md:mb-12 text-gray-300 uppercase">
           LAUNCHING
         </p>
         {/* Countdown Timer */}
-        <div className="flex gap-4 md:gap-8 mb-16">
-          <div className="text-center">
-            <div className="text-4xl md:text-6xl font-mono font-bold mb-2">00</div>
-            <div className="text-sm md:text-base tracking-wider">DAYS</div>
+        <div className="flex flex-row gap-6 md:gap-12 mb-0 md:mb-8 justify-center items-end">
+          <div className="flex flex-col items-center">
+            <div className="text-[clamp(2.5rem,7vw,5rem)] font-extrabold font-mono leading-none mb-1">00</div>
+            <div className="text-xs md:text-base tracking-widest text-gray-300 uppercase">DAYS</div>
           </div>
-          <div className="text-center">
-            <div className="text-4xl md:text-6xl font-mono font-bold mb-2">00</div>
-            <div className="text-sm md:text-base tracking-wider">HOURS</div>
+          <div className="flex flex-col items-center">
+            <div className="text-[clamp(2.5rem,7vw,5rem)] font-extrabold font-mono leading-none mb-1">00</div>
+            <div className="text-xs md:text-base tracking-widest text-gray-300 uppercase">HOURS</div>
           </div>
-          <div className="text-center">
-            <div className="text-4xl md:text-6xl font-mono font-bold mb-2">00</div>
-            <div className="text-sm md:text-base tracking-wider">MINUTES</div>
+          <div className="flex flex-col items-center">
+            <div className="text-[clamp(2.5rem,7vw,5rem)] font-extrabold font-mono leading-none mb-1">00</div>
+            <div className="text-xs md:text-base tracking-widest text-gray-300 uppercase">MINUTES</div>
           </div>
-          <div className="text-center">
-            <div className="text-4xl md:text-6xl font-mono font-bold mb-2">00</div>
-            <div className="text-sm md:text-base tracking-wider">SECONDS</div>
+          <div className="flex flex-col items-center">
+            <div className="text-[clamp(2.5rem,7vw,5rem)] font-extrabold font-mono leading-none mb-1">00</div>
+            <div className="text-xs md:text-base tracking-widest text-gray-300 uppercase">SECONDS</div>
           </div>
         </div>
-        {/* Cities List */}
-        <div className="absolute bottom-8 text-center">
-          <p className="text-sm md:text-base text-gray-300 tracking-wider">
-            MIAMI • SAN SALVADOR • BUENOS AIRES • TOKYO • HONG KONG • LONDON • PARIS • BERLIN
-          </p>
-        </div>
+      </div>
+      {/* Cities List Bar */}
+      <div className="absolute bottom-0 left-0 w-full py-4 px-2 bg-transparent z-20">
+        <p className="w-full text-center text-[clamp(1.1rem,2.5vw,2.2rem)] font-bold text-gray-700 tracking-widest uppercase whitespace-nowrap overflow-x-auto">
+          WASHINGTON DC • ABU DHABI • DUBAI • MIAMI • SAN SALVADOR
+        </p>
       </div>
     </div>
   );
