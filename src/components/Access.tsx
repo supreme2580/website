@@ -24,6 +24,7 @@ export default function Access() {
               height={220}
               className="object-contain select-none"
               priority
+              draggable={false}
             />
           </div>
         </div>
@@ -51,7 +52,7 @@ export default function Access() {
         </div>
         <div
           ref={dividerRef}
-          className="w-56 h-2 bg-gradient-to-r from-white/0 via-white to-white/0 rounded-full opacity-90 shadow-lg animate-divider-up-infinite"
+          className="w-56 h-1 bg-gradient-to-r from-white/0 via-white to-white/0 rounded-full opacity-90 shadow-lg animate-divider-up-infinite"
           style={{ zIndex: 20, transform: 'translateX(-50%)' }}
         />
       </div>
