@@ -1,6 +1,8 @@
 import Image from 'next/image';
 
 export default function Reel() {
+  // Number of lines
+  const lineCount = 12;
   return (
     <section className="relative w-full min-h-screen h-screen bg-black text-white flex flex-col">
       {/* Title */}
@@ -10,8 +12,19 @@ export default function Reel() {
         </h2>
       </div>
       {/* Main Image - fill available space */}
-      <div className="flex-1 flex justify-center items-center w-full bg-black">
-        <div className="w-full h-full relative flex items-center justify-center">
+      <div className="flex-1 flex justify-center items-center w-full bg-black relative px-8">
+        {/* Faint horizontal lines background */}
+        <div className="absolute inset-0 pointer-events-none z-0 flex flex-col justify-between" aria-hidden="true">
+          {Array.from({ length: lineCount }).map((_, i) => (
+            <div
+              key={i}
+              className="w-full border-t border-white opacity-10"
+              style={{ borderWidth: '1.5px' }}
+            />
+          ))}
+        </div>
+        {/* Image above lines */}
+        <div className="w-full h-full relative flex items-center justify-center z-10">
           <Image
             src="/reels/img1.webp"
             alt="The Reel Main"
