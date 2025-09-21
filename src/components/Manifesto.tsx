@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useMemo, useEffect } from 'react';
-import { Typewriter } from 'react-simple-typewriter';
+import { useTypewriter } from 'react-simple-typewriter';
 
 export default function Manifesto() {
   // Store the original texts for reference
@@ -20,18 +20,21 @@ export default function Manifesto() {
   const deleteSpeed = 30;
   const delaySpeed = 1200;
 
+  // Use useTypewriter hook
+  const [text] = useTypewriter({
+    words: texts,
+    loop: true,
+    typeSpeed,
+    deleteSpeed,
+    delaySpeed,
+  });
+
   useEffect(() => {
-    const advanceDot = () => {
-      setCurrentIdx(prev => (prev + 1) % texts.length);
-    };
-    // Calculate the time for the current word
-    const word = texts[currentIdx];
-    const typingTime = word.length * typeSpeed;
-    const deletingTime = word.length * deleteSpeed;
-    const totalTime = typingTime + delaySpeed + deletingTime;
-    const timer = setTimeout(advanceDot, totalTime);
-    return () => clearTimeout(timer);
-  }, [currentIdx, texts, typeSpeed, deleteSpeed, delaySpeed]);
+    // Update currentIdx based on which word is currently being typed
+    // Find the index of the word that matches the current text (ignoring partial typing)
+    const idx = texts.findIndex(word => text && word.startsWith(text));
+    if (idx !== -1) setCurrentIdx(idx);
+  }, [text, texts]);
 
   return (
     <div className="w-full min-h-[50vh] flex flex-col items-center justify-center py-10 bg-black">
@@ -52,15 +55,9 @@ export default function Manifesto() {
               display: 'block',
             }}
           >
-            <Typewriter
-              loop={true}
-              words={texts}
-              cursor
-              cursorStyle="|"
-              typeSpeed={typeSpeed}
-              deleteSpeed={deleteSpeed}
-              delaySpeed={delaySpeed}
-            />        
+            {/* Show the typewriter text and cursor */}
+            <span>{text}</span>
+            <span style={{ color: '#fff' }}>|</span>
             <div className="my-8 flex flex-row justify-center items-center gap-2">
               {texts.map((_, idx) => (
                 <span
