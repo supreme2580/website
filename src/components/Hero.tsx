@@ -19,9 +19,8 @@ export default function Hero() {
     resizeCanvas();
     window.addEventListener('resize', resizeCanvas);
 
-    // --- PARTICULATE BACKGROUND ---
+    // --- 3D STARFIELD PARTICULATE BACKGROUND ---
     const PARTICLE_COUNT = 180;
-    const particles: { x: number; y: number; r: number; baseAlpha: number; color: string; twinkleSpeed: number; twinklePhase: number }[] = [];
     const palette = [
       '#FFB347', // orange
       '#FFD700', // gold
@@ -32,12 +31,17 @@ export default function Hero() {
       '#FFFACD', // lemon chiffon
       '#E0BBE4', // lavender
     ];
+    // Each particle has 3D position (x, y, z), color, and twinkle
+    const particles: { x: number; y: number; z: number; color: string; twinkleSpeed: number; twinklePhase: number }[] = [];
+    const FOV = 420; // field of view (affects tunnel depth)
+    const MAX_DEPTH = 1200;
     for (let i = 0; i < PARTICLE_COUNT; i++) {
+      const angle = Math.random() * Math.PI * 2;
+      const radius = Math.random() * 1.1 + 0.2; // spread out
       particles.push({
-        x: Math.random() * window.innerWidth,
-        y: Math.random() * window.innerHeight,
-        r: 1.2 + Math.random() * 1.8,
-        baseAlpha: 0.18 + Math.random() * 0.18,
+        x: Math.cos(angle) * radius,
+        y: Math.sin(angle) * radius,
+        z: Math.random() * MAX_DEPTH + 80,
         color: palette[Math.floor(Math.random() * palette.length)],
         twinkleSpeed: 0.5 + Math.random() * 0.7,
         twinklePhase: Math.random() * Math.PI * 2,
@@ -48,16 +52,39 @@ export default function Hero() {
     const animate = () => {
       if (!ctx || !canvas) return;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      // Draw particulate background
+      const cx = canvas.width / 2;
+      const cy = canvas.height / 2;
       for (let i = 0; i < particles.length; i++) {
         const p = particles[i];
-        // Gentle twinkle
+        // Move forward (decrease z)
+        p.z -= 7.5;
+        if (p.z < 10) {
+          // Respawn at far distance with new angle/radius
+          const angle = Math.random() * Math.PI * 2;
+          const radius = Math.random() * 1.1 + 0.2;
+          p.x = Math.cos(angle) * radius;
+          p.y = Math.sin(angle) * radius;
+          p.z = MAX_DEPTH;
+          p.color = palette[Math.floor(Math.random() * palette.length)];
+          p.twinkleSpeed = 0.5 + Math.random() * 0.7;
+          p.twinklePhase = Math.random() * Math.PI * 2;
+        }
+        // 3D to 2D projection
+        const scale = FOV / p.z;
+        const screenX = cx + p.x * canvas.width * scale;
+        const screenY = cy + p.y * canvas.height * scale;
+        // Size and alpha by depth
+        const baseSize = 2.2 + 8 * (1 - p.z / MAX_DEPTH);
         const twinkle = Math.sin(time * 0.012 * p.twinkleSpeed + p.twinklePhase) * 0.13;
-        ctx.globalAlpha = Math.max(0, Math.min(1, p.baseAlpha + twinkle));
+        const alpha = Math.max(0, Math.min(1, 0.18 + 0.7 * (1 - p.z / MAX_DEPTH) + twinkle));
+        ctx.globalAlpha = alpha;
         ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.arc(screenX, screenY, baseSize, 0, Math.PI * 2);
         ctx.fillStyle = p.color;
+        ctx.shadowColor = p.color;
+        ctx.shadowBlur = 12 * (1 - p.z / MAX_DEPTH);
         ctx.fill();
+        ctx.shadowBlur = 0;
       }
       ctx.globalAlpha = 1;
       time += 1;
