@@ -123,7 +123,7 @@ export default function Hero() {
   }, []);
 
   return (
-    <div className="relative w-full h-screen overflow-hidden bg-black">
+    <div className="relative w-full h-screen overflow-hidden bg-white/60">
       {/* Zebra/Wavy Three.js Background */}
       <ZebraBackground />
       <div className="relative z-10 flex flex-col items-center justify-center h-full text-white select-none">
