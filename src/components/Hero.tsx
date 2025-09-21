@@ -8,7 +8,6 @@ export default function Hero() {
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
@@ -17,120 +16,53 @@ export default function Hero() {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
     };
-
     resizeCanvas();
     window.addEventListener('resize', resizeCanvas);
 
-    // Animation variables
-    let time = 0;
-    
-    interface Stream {
-      startX: number;
-      startY: number;
-      progress: number;
-      length: number;
-      thickness: number;
-    }
-    
-    const streams: Stream[] = [];
-
-    // Stream properties
-    const streamLength = 600; // 4x longer streams (600px instead of 150px)
-    const maxStreams = 20; // Maximum number of streams on screen
-    const spawnRate = 0.02; // Snake spawning rate
-
-    // Create initial streams
-    for (let i = 0; i < 5; i++) {
-      spawnNewStream();
-    }
-
-    function spawnNewStream() {
-      if (!canvas) return;
-      
-      streams.push({
-        startX: -canvas.width * 0.2, // Start from off-screen left
-        startY: -canvas.height * 0.2, // Start from off-screen top
-        progress: 0,
-        length: Math.sqrt(canvas.width * canvas.width + canvas.height * canvas.height) * 1.4, // Full diagonal length
-        thickness: 40 // 10x thicker streams
+    // --- PARTICULATE BACKGROUND ---
+    const PARTICLE_COUNT = 180;
+    const particles: { x: number; y: number; r: number; baseAlpha: number; color: string; twinkleSpeed: number; twinklePhase: number }[] = [];
+    const palette = [
+      '#FFB347', // orange
+      '#FFD700', // gold
+      '#7FFFD4', // aquamarine
+      '#87CEEB', // sky blue
+      '#FF69B4', // pink
+      '#B0E57C', // light green
+      '#FFFACD', // lemon chiffon
+      '#E0BBE4', // lavender
+    ];
+    for (let i = 0; i < PARTICLE_COUNT; i++) {
+      particles.push({
+        x: Math.random() * window.innerWidth,
+        y: Math.random() * window.innerHeight,
+        r: 1.2 + Math.random() * 1.8,
+        baseAlpha: 0.18 + Math.random() * 0.18,
+        color: palette[Math.floor(Math.random() * palette.length)],
+        twinkleSpeed: 0.5 + Math.random() * 0.7,
+        twinklePhase: Math.random() * Math.PI * 2,
       });
     }
-
-    function removeOldStreams() {
-      // No removal - infinite streaming noodles
-    }
-
-    function drawStream(stream: Stream, time: number) {
-      if (!ctx || !canvas) return;
-      
-      ctx.beginPath();
-      
-      // Calculate the head position (leading edge) - infinite diagonal movement
-      const headX = stream.startX + (stream.progress * (canvas.width + canvas.width * 0.4));
-      const headY = stream.startY + (stream.progress * (canvas.height + canvas.height * 0.4));
-      
-      // Reset progress when stream goes off screen to create infinite loop
-      if (stream.progress > 1) {
-        stream.progress = 0;
-      }
-      
-      // Calculate the tail position (trailing edge) - behind the head by stream length
-      const diagonalAngle = Math.atan2(canvas.height, canvas.width);
-      const tailX = headX - Math.cos(diagonalAngle) * stream.length;
-      const tailY = headY - Math.sin(diagonalAngle) * stream.length;
-      
-      // Create smoothly curved stream using bezier curves
-      const width = headX - tailX;
-      const height = headY - tailY;
-      
-      // Calculate smooth curve control points (4x more curved)
-      const control1X = tailX + width * 0.3;
-      const control1Y = tailY + height * 0.3 + Math.sin(time * 0.01 + stream.startY * 0.01) * 120;
-      const control2X = tailX + width * 0.7;
-      const control2Y = tailY + height * 0.7 + Math.sin(time * 0.015 + stream.startY * 0.02) * 100;
-      
-      // Start point
-      ctx.moveTo(tailX, tailY);
-      
-      // Draw smooth bezier curve
-      ctx.bezierCurveTo(control1X, control1Y, control2X, control2Y, headX, headY);
-      
-      // No fade out - constant opacity for infinite streaming
-      const baseOpacity = 0.4;
-      const pulseOpacity = Math.sin(time * 0.01 + stream.startY * 0.01) * 0.1;
-      const finalOpacity = baseOpacity + pulseOpacity;
-      
-      ctx.strokeStyle = `rgba(255, 255, 255, ${finalOpacity})`;
-      ctx.lineWidth = stream.thickness;
-      ctx.lineCap = 'round';
-      ctx.stroke();
-    }
-
-    // Animation loop
+    // --- ANIMATION LOOP ---
+    let time = 0;
     const animate = () => {
       if (!ctx || !canvas) return;
-      
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      
-      // Spawn new streams
-      if (Math.random() < spawnRate && streams.length < maxStreams) {
-        spawnNewStream();
+      // Draw particulate background
+      for (let i = 0; i < particles.length; i++) {
+        const p = particles[i];
+        // Gentle twinkle
+        const twinkle = Math.sin(time * 0.012 * p.twinkleSpeed + p.twinklePhase) * 0.13;
+        ctx.globalAlpha = Math.max(0, Math.min(1, p.baseAlpha + twinkle));
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = p.color;
+        ctx.fill();
       }
-      
-      // Update and draw streams
-      for (let i = 0; i < streams.length; i++) {
-        const stream = streams[i];
-        stream.progress += 0.005; // 2x slower snake-like movement speed
-        
-        drawStream(stream, time);
-      }
-      
-      // Infinite streaming - no removal needed
-      
+      ctx.globalAlpha = 1;
       time += 1;
       requestAnimationFrame(animate);
     };
-
     animate();
 
     // Cleanup
@@ -151,12 +83,10 @@ export default function Hero() {
         <h1 className="text-6xl md:text-8xl font-bold mb-4 tracking-wider">
           PHENOMENA
         </h1>
-        
         {/* Launching Text */}
         <p className="text-xl md:text-2xl mb-8 tracking-wide">
           LAUNCHING
         </p>
-        
         {/* Countdown Timer */}
         <div className="flex gap-4 md:gap-8 mb-16">
           <div className="text-center">
@@ -176,7 +106,6 @@ export default function Hero() {
             <div className="text-sm md:text-base tracking-wider">SECONDS</div>
           </div>
         </div>
-        
         {/* Cities List */}
         <div className="absolute bottom-8 text-center">
           <p className="text-sm md:text-base text-gray-300 tracking-wider">
