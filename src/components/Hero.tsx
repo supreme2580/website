@@ -48,20 +48,16 @@ export default function Hero() {
       if (!canvas) return;
       
       streams.push({
-        startX: -50, // Start from left edge (top-left to bottom-right)
-        startY: Math.random() * canvas.height * 0.6, // Start from top 60%
+        startX: -canvas.width * 0.2, // Start from off-screen left
+        startY: -canvas.height * 0.2, // Start from off-screen top
         progress: 0,
-        length: streamLength + Math.random() * 200, // Variable length (4x longer)
+        length: Math.sqrt(canvas.width * canvas.width + canvas.height * canvas.height) * 1.4, // Full diagonal length
         thickness: 40 // 10x thicker streams
       });
     }
 
     function removeOldStreams() {
-      for (let i = streams.length - 1; i >= 0; i--) {
-        if (streams[i].progress > 1) {
-          streams.splice(i, 1);
-        }
-      }
+      // No removal - infinite streaming noodles
     }
 
     function drawStream(stream: Stream, time: number) {
@@ -69,13 +65,19 @@ export default function Hero() {
       
       ctx.beginPath();
       
-      // Calculate the head position (leading edge)
-      const headX = stream.startX + (stream.progress * (canvas.width + stream.length));
-      const headY = stream.startY + (stream.progress * canvas.height * 0.4);
+      // Calculate the head position (leading edge) - infinite diagonal movement
+      const headX = stream.startX + (stream.progress * (canvas.width + canvas.width * 0.4));
+      const headY = stream.startY + (stream.progress * (canvas.height + canvas.height * 0.4));
       
-      // Calculate the tail position (trailing edge)
-      const tailX = headX - stream.length;
-      const tailY = headY - (stream.length * 0.6);
+      // Reset progress when stream goes off screen to create infinite loop
+      if (stream.progress > 1) {
+        stream.progress = 0;
+      }
+      
+      // Calculate the tail position (trailing edge) - behind the head by stream length
+      const diagonalAngle = Math.atan2(canvas.height, canvas.width);
+      const tailX = headX - Math.cos(diagonalAngle) * stream.length;
+      const tailY = headY - Math.sin(diagonalAngle) * stream.length;
       
       // Create smoothly curved stream using bezier curves
       const width = headX - tailX;
@@ -93,11 +95,10 @@ export default function Hero() {
       // Draw smooth bezier curve
       ctx.bezierCurveTo(control1X, control1Y, control2X, control2Y, headX, headY);
       
-      // Only fade out when approaching the end (progress > 0.8)
-      const fadeProgress = stream.progress > 0.8 ? (1 - stream.progress) / 0.2 : 1;
+      // No fade out - constant opacity for infinite streaming
       const baseOpacity = 0.4;
       const pulseOpacity = Math.sin(time * 0.01 + stream.startY * 0.01) * 0.1;
-      const finalOpacity = (baseOpacity + pulseOpacity) * fadeProgress;
+      const finalOpacity = baseOpacity + pulseOpacity;
       
       ctx.strokeStyle = `rgba(255, 255, 255, ${finalOpacity})`;
       ctx.lineWidth = stream.thickness;
@@ -124,8 +125,7 @@ export default function Hero() {
         drawStream(stream, time);
       }
       
-      // Remove streams that have finished
-      removeOldStreams();
+      // Infinite streaming - no removal needed
       
       time += 1;
       requestAnimationFrame(animate);
