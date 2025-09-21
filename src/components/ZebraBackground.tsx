@@ -5,25 +5,22 @@ const fragmentShader = `
 uniform float u_time;
 uniform vec2 u_resolution;
 
-float curve(vec2 uv, float t) {
-    float c1 = sin(uv.y * 18.0 + sin(uv.x * 12.0 + t * 0.1) * 1.2 + t * 0.08);
-    float c2 = cos(uv.y * 13.0 + uv.x * 22.0 + t * 0.13) * 0.5;
-    float c3 = sin(uv.x * 30.0 + t * 0.05) * 0.3;
-    return c1 + c2 + c3;
-}
-
 void main() {
     vec2 uv = gl_FragCoord.xy / u_resolution.xy;
     uv = uv * 1.1 - 0.05;
 
-    float t = u_time;
-    float pattern = curve(uv, t);
+    float t = u_time * 0.1;
 
-    float mask = smoothstep(0.48, 0.52, pattern);
+    // Abstract, wavy, thin lines using sin and fract for contour effect
+    float v = sin(uv.y * 8.0 + sin(uv.x * 4.0 + t) * 2.0 + t * 0.5)
+            + cos(uv.x * 12.0 + uv.y * 2.0 + t * 1.2) * 0.7;
+
+    // Make thin lines using fract (creates a contour effect)
+    float lines = smoothstep(0.01, 0.03, abs(fract(v * 2.0) - 0.5));
 
     vec3 bg = vec3(0.10, 0.10, 0.10);
     vec3 line = vec3(0.01, 0.01, 0.01);
-    vec3 color = mix(bg, line, mask);
+    vec3 color = mix(bg, line, lines);
 
     gl_FragColor = vec4(color, 1.0);
 }
