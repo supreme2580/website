@@ -9,7 +9,7 @@ export default function Access() {
   // No need for useEffect, animation will be infinite
 
   return (
-    <section className="relative w-full min-h-[50vh] flex flex-col items-center justify-center pb-8 px-4 md:px-8 bg-black overflow-hidden">
+    <section className="relative w-full min-h-[50vh] flex flex-col items-center justify-center pt-24 pb-8 px-4 md:px-8 bg-black overflow-hidden">
       <div className="relative z-10 flex flex-col items-center w-full max-w-xl mx-auto">
         <h2 className="text-[clamp(2.5rem,7vw,5rem)] font-extrabold tracking-widest text-white text-center mb-2 drop-shadow-lg leading-none">
           ACCESS.<br />UNLOCKED.

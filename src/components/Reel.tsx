@@ -110,7 +110,7 @@ export default function Reel() {
           <button
             key={img}
             onClick={() => goTo(idx)}
-            className={`relative w-16 h-10 md:w-24 md:h-14 rounded border-2 transition-all duration-200 overflow-hidden ${idx === current ? 'border-white/80 shadow-lg scale-105' : 'border-white/20 opacity-60 hover:opacity-100'}`}
+            className={`relative w-16 h-10 md:w-24 md:h-14 rounded border-2 transition-all duration-200 hover:cursor-pointer overflow-hidden ${idx === current ? 'border-white/80 shadow-lg scale-105' : 'border-white/20 opacity-60 hover:opacity-100'}`}
             tabIndex={0}
           >
             <Image
