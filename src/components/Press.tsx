@@ -1,5 +1,9 @@
+'use client';
+
 import Image from 'next/image';
 import Link from 'next/link';
+import { motion, useInView } from 'framer-motion';
+import { useRef } from 'react';
 
 const pressItems = [
   {
@@ -44,6 +48,59 @@ const pressItems = [
   },
 ];
 
+// Animated Press Card Component
+function AnimatedPressCard({ item, idx }: { item: { publication: string, number: string, headline: string, date: string, image: string, link: string }; idx: number }) {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { 
+    once: false, 
+    margin: "-100px" 
+  });
+
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 50, scale: 0.9 }}
+      animate={isInView ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 50, scale: 0.9 }}
+      transition={{ 
+        duration: 0.6, 
+        ease: "easeOut",
+        delay: idx * 0.1 
+      }}
+    >
+      <Link 
+        href={item.link}
+        target={item.link.includes("https") ? "_blank" : "_self"}
+        rel="noopener noreferrer"
+        key={item.number}
+      >
+        <div className="group relative flex flex-col justify-end bg-gradient-to-t from-black/90 via-black/70 to-black/30 rounded-lg overflow-hidden min-h-[260px] h-[320px] shadow-lg border border-white/10 hover:border-white/30 hover:cursor-pointer transition-all duration-300 hover:scale-115">
+          {/* Optional image background */}
+          {item.image && (
+              <Image
+                src={item.image}
+                alt={item.headline}
+                fill
+                className="object-cover object-center opacity-30 group-hover:opacity-40 transition-all duration-300"
+                style={{ zIndex: 0 }}
+                priority={idx === 0}
+              />
+          )}
+          {/* Overlay */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/70 to-transparent z-10" />
+          {/* Content */}
+          <div className="relative z-20 flex flex-col h-full justify-end p-6">
+            <div className="text-xs tracking-widest text-white/60 mb-1">{item.publication}</div>
+            <div className="text-4xl font-extrabold text-white/20 mb-2">{item.number}</div>
+            <div className='flex-1' />
+            <div className="font-semibold text-white text-lg leading-snug mb-2 line-clamp-2">{item.headline}</div>
+            <div className="text-xs text-white/50 tracking-widest mt-auto">{item.date}</div>
+          </div>
+        </div>
+      </Link>
+    </motion.div>
+  );
+}
+
 export default function Press() {
   return (
     <section className="relative w-full min-h-[70vh] bg-black flex flex-col items-center justify-center py-20 px-4 md:px-8">
@@ -60,39 +117,7 @@ export default function Press() {
       {/* Press Cards */}
       <div className="relative z-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 w-full max-w-7xl mx-auto">
         {pressItems.map((item, idx) => (
-          <Link 
-            href={item.link}
-            target={item.link.includes("https") ? "_blank" : "_self"}
-            rel="noopener noreferrer"
-            key={item.number}
-          >
-          <div
-            key={item.number}
-            className="group relative flex flex-col justify-end bg-gradient-to-t from-black/90 via-black/70 to-black/30 rounded-lg overflow-hidden min-h-[260px] h-[320px] shadow-lg border border-white/10 hover:border-white/30 hover:cursor-pointer transition-all duration-300 hover:scale-115"
-          >
-            {/* Optional image background */}
-            {item.image && (
-                <Image
-                  src={item.image}
-                  alt={item.headline}
-                  fill
-                  className="object-cover object-center opacity-30 group-hover:opacity-40 transition-all duration-300"
-                  style={{ zIndex: 0 }}
-                  priority={idx === 0}
-                />
-            )}
-            {/* Overlay */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/70 to-transparent z-10" />
-            {/* Content */}
-            <div className="relative z-20 flex flex-col h-full justify-end p-6">
-              <div className="text-xs tracking-widest text-white/60 mb-1">{item.publication}</div>
-              <div className="text-4xl font-extrabold text-white/20 mb-2">{item.number}</div>
-              <div className='flex-1' />
-              <div className="font-semibold text-white text-lg leading-snug mb-2 line-clamp-2">{item.headline}</div>
-              <div className="text-xs text-white/50 tracking-widest mt-auto">{item.date}</div>
-            </div>
-          </div>
-          </Link>
+          <AnimatedPressCard key={item.number} item={item} idx={idx} />
         ))}
       </div>
     </section>
