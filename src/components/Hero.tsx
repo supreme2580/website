@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 
 export default function Hero() {
 
@@ -36,15 +37,42 @@ export default function Hero() {
     <div className="relative w-full h-screen overflow-hidden bg-black bg-[url('/hero-background.gif')] bg-cover bg-center bg-no-repeat">
       <div className="relative z-10 flex flex-col items-center justify-center h-full text-white select-none">
         {/* Main Title */}
-        <h1 className="text-[clamp(3rem,12vw,8rem)] font-extrabold leading-none text-center mb-10 md:mb-14 tracking-widest">
+        <motion.h1 
+          className="text-[clamp(3rem,12vw,8rem)] font-extrabold leading-none text-center mb-10 md:mb-14 tracking-widest"
+          initial={{ scale: 1.5, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ 
+            duration: 1.2, 
+            ease: "easeOut",
+            delay: 0.3
+          }}
+        >
           PHENOMENA
-        </h1>
+        </motion.h1>
         {/* Launching Text */}
-        <p className="text-xs md:text-base tracking-widest text-center mb-8 md:mb-12 text-white/60 uppercase">
+        <motion.p 
+          className="text-xs md:text-base tracking-widest text-center mb-8 md:mb-12 text-white/60 uppercase"
+          initial={{ y: 30, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ 
+            duration: 0.8, 
+            ease: "easeOut",
+            delay: 0.8
+          }}
+        >
           LAUNCHING
-        </p>
+        </motion.p>
         {/* Countdown Timer */}
-        <div className="flex flex-row gap-6 md:gap-12 mb-0 md:mb-8 justify-center items-end">
+        <motion.div 
+          className="flex flex-row gap-6 md:gap-12 mb-0 md:mb-8 justify-center items-end"
+          initial={{ y: 40, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ 
+            duration: 0.8, 
+            ease: "easeOut",
+            delay: 1.0
+          }}
+        >
           <div className="flex flex-col items-center">
             <div className="text-[clamp(2.5rem,7vw,5rem)] font-extrabold font-mono leading-none mb-1">
               {timeLeft.days}
@@ -77,7 +105,7 @@ export default function Hero() {
               SECONDS
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
       {/* Cities List Bar with Marquee */}
       <div className="absolute bottom-0 left-0 w-full py-3 md:py-4 px-1 md:px-2 bg-transparent z-20 overflow-hidden">
