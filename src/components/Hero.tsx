@@ -33,19 +33,7 @@ export default function Hero() {
   }, []);
 
   return (
-    <div className="relative w-full h-screen overflow-hidden bg-black bg-[url('/background.jpg')] bg-cover bg-center bg-no-repeat">
-      {/* Background Video */}
-      <video
-        className="absolute inset-0 w-full h-full object-cover z-0"
-        src="/videos/website-background.mp4"
-        autoPlay
-        loop
-        muted
-        playsInline
-        poster="/background.jpg"
-        aria-hidden="true"
-      />
-      {/* Zebra/Wavy Three.js Background */}
+    <div className="relative w-full h-screen overflow-hidden bg-black bg-[url('/hero-background.gif')] bg-cover bg-center bg-no-repeat">
       <div className="relative z-10 flex flex-col items-center justify-center h-full text-white select-none">
         {/* Main Title */}
         <h1 className="text-[clamp(3rem,12vw,8rem)] font-extrabold leading-none text-center mb-10 md:mb-14 tracking-widest">

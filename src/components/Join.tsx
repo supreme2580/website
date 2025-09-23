@@ -5,19 +5,9 @@ import { useState } from 'react';
 export default function Join() {
   const [email, setEmail] = useState('');
   return (
-    <section className="relative w-full min-h-[60vh] flex flex-col items-center justify-center py-24 px-4 md:px-8 bg-black overflow-hidden">
+    <section className="relative w-full min-h-[60vh] flex flex-col items-center justify-center py-24 px-4 md:px-8 bg-black bg-[url('/join-background.gif')] bg-cover bg-center bg-no-repeat overflow-hidden">
       {/* Video Background */}
       <div className="pointer-events-none absolute inset-0 z-0 flex items-center justify-center" aria-hidden>
-        <video
-          className="w-full h-full object-cover object-center rounded-2xl"
-          src="/videos/website-rolls.mp4"
-          autoPlay
-          loop
-          muted
-          playsInline
-          poster="/elite-background.png"
-          aria-hidden="true"
-        />
         {/* Abstract background effect */}
         <div className="w-full h-full flex items-center justify-center absolute inset-0">
           <div className="w-full h-full blur-2xl opacity-60 bg-gradient-to-br from-white/10 via-black/80 to-black rounded-2xl" />
