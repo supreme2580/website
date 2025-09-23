@@ -5,11 +5,22 @@ import { useState } from 'react';
 export default function Join() {
   const [email, setEmail] = useState('');
   return (
-    <section className="relative w-full min-h-[60vh] flex flex-col items-center justify-center py-24 px-4 md:px-8 bg-black bg-[url('/elite-background.png')] bg-cover bg-center bg-no-repeat overflow-hidden">
-      {/* Abstract background effect */}
+    <section className="relative w-full min-h-[60vh] flex flex-col items-center justify-center py-24 px-4 md:px-8 bg-black overflow-hidden">
+      {/* Video Background */}
       <div className="pointer-events-none absolute inset-0 z-0 flex items-center justify-center" aria-hidden>
-        <div className="w-full h-full flex items-center justify-center">
-          <div className="w-[90vw] max-w-3xl h-[60vh] blur-2xl opacity-60 bg-gradient-to-br from-white/10 via-black/80 to-black rounded-2xl" />
+        <video
+          className="w-full h-full object-cover object-center rounded-2xl"
+          src="/videos/website-rolls.mp4"
+          autoPlay
+          loop
+          muted
+          playsInline
+          poster="/elite-background.png"
+          aria-hidden="true"
+        />
+        {/* Abstract background effect */}
+        <div className="w-full h-full flex items-center justify-center absolute inset-0">
+          <div className="w-full h-full blur-2xl opacity-60 bg-gradient-to-br from-white/10 via-black/80 to-black rounded-2xl" />
         </div>
         {/* <div className="absolute inset-0 bg-gradient-to-b from-white/5 via-black/80 to-black" /> */}
       </div>
