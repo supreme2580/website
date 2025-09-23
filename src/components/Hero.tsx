@@ -108,7 +108,16 @@ export default function Hero() {
         </motion.div>
       </div>
       {/* Cities List Bar with Marquee */}
-      <div className="absolute bottom-0 left-0 w-full py-3 md:py-4 px-1 md:px-2 bg-transparent z-20 overflow-hidden">
+      <motion.div 
+        className="absolute bottom-0 left-0 w-full py-3 md:py-4 px-1 md:px-2 bg-transparent z-20 overflow-hidden"
+        initial={{ y: 20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ 
+          duration: 0.8, 
+          ease: "easeOut",
+          delay: 1.5
+        }}
+      >
         <div className="flex w-max animate-marquee">
           <p className="text-[clamp(1.1rem,2.5vw,2.2rem)] font-bold text-white/60 uppercase tracking-widest whitespace-nowrap mx-4">
             MEXICO CITY • WALL STREET • HOLLYWOOD • SILICON VALLEY • WASHINGTON
@@ -117,7 +126,7 @@ export default function Hero() {
             TORONTO • SEOUL • BOULDER •
           </p>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 }
