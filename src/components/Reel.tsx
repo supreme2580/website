@@ -2,8 +2,16 @@
 import Image from 'next/image';
 import { useEffect, useState, useMemo, useRef, useCallback } from 'react';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/solid';
+import { motion, useInView } from 'framer-motion';
 
-export default function Reel() {
+// Animated Reel Section Component
+function AnimatedReelSection() {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { 
+    once: false, 
+    margin: "-100px" 
+  });
+
   // All images (memoized)
   const allImages = useMemo(() => [
     '/reels/img1.webp',
@@ -59,15 +67,43 @@ export default function Reel() {
   };
 
   return (
-    <section className="relative w-full bg-black text-white flex flex-col">
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 50, scale: 0.9 }}
+      animate={isInView ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 50, scale: 0.9 }}
+      transition={{ 
+        duration: 0.6, 
+        ease: "easeOut"
+      }}
+      className="relative w-full bg-black text-white flex flex-col"
+    >
       {/* Title */}
-      <div className="w-full bg-black py-4 md:py-6 flex justify-center items-center">
+      <motion.div 
+        className="w-full bg-black py-4 md:py-6 flex justify-center items-center"
+        initial={{ opacity: 0, y: 30 }}
+        animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+        transition={{ 
+          duration: 0.6, 
+          ease: "easeOut",
+          delay: 0.1
+        }}
+      >
         <h2 className="text-[clamp(2.5rem,6vw,4rem)] font-extrabold tracking-widest text-center leading-none">
           THE REEL
         </h2>
-      </div>
+      </motion.div>
+      
       {/* Main Content: image center */}
-      <div className="flex-1 flex flex-row w-full bg-black relative">
+      <motion.div 
+        className="flex-1 flex flex-row w-full bg-black relative"
+        initial={{ opacity: 0, y: 40, scale: 0.8 }}
+        animate={isInView ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 40, scale: 0.8 }}
+        transition={{ 
+          duration: 0.6, 
+          ease: "easeOut",
+          delay: 0.2
+        }}
+      >
         <div className="flex-1 flex items-center justify-center relative z-10">
           <div className="relative w-[90vw] max-w-5xl aspect-video mx-auto flex items-center justify-center bg-black rounded-lg shadow-2xl border-4 border-white/10 overflow-hidden">
             {/* Left arrow */}
@@ -103,9 +139,19 @@ export default function Reel() {
             </button>
           </div>
         </div>
-      </div>
+      </motion.div>
+      
       {/* Filmstrip thumbnails */}
-      <div className="w-full flex justify-center items-center gap-2 py-4 px-8 bg-black">
+      <motion.div 
+        className="w-full flex justify-center items-center gap-2 py-4 px-8 bg-black"
+        initial={{ opacity: 0, y: 30 }}
+        animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+        transition={{ 
+          duration: 0.6, 
+          ease: "easeOut",
+          delay: 0.3
+        }}
+      >
         {allImages.map((img, idx) => (
           <button
             key={img}
@@ -125,13 +171,31 @@ export default function Reel() {
             )}
           </button>
         ))}
-      </div>
+      </motion.div>
+      
       {/* Caption at the bottom */}
-      <div className="w-full bg-black py-3 flex justify-center items-center">
+      <motion.div 
+        className="w-full bg-black py-3 flex justify-center items-center"
+        initial={{ opacity: 0, y: 20 }}
+        animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+        transition={{ 
+          duration: 0.6, 
+          ease: "easeOut",
+          delay: 0.4
+        }}
+      >
         <p className="text-sm sm:text-base md:text-lg lg:text-xl text-white/60 max-w-4xl mx-auto leading-relaxed text-center px-2">
           Glimpses of power. Fragments of influence. The convergence of worlds that shape tomorrow.
         </p>
-      </div>
+      </motion.div>
+    </motion.div>
+  );
+}
+
+export default function Reel() {
+  return (
+    <section className="relative w-full bg-black text-white flex flex-col">
+      <AnimatedReelSection />
     </section>
   );
 }

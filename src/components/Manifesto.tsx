@@ -1,7 +1,8 @@
 'use client';
 
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo, useEffect, useRef } from 'react';
 import { useTypewriter } from 'react-simple-typewriter';
+import { motion, useInView } from 'framer-motion';
 
 export default function Manifesto() {
   // Store the original texts for reference
